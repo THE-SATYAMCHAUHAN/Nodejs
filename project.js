@@ -3,19 +3,16 @@ const bodyParser=require('body-parser');
 
 const app =express();
 
+const adminRoutes =require('./routes2/admin');
+const shopRoutes=require('./routes2/Shop')
+
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.use('/add-product',(req,res ,next)=>{
-  res.send('<form action="/product" method="post"><input type="text" name="tittle"><button type=submit>Add Product</button><input type="number" name="size"><button type=submit>Product Size</button></form>');
-});
+app.use('/admin',adminRoutes);
+app.use('/shop',shopRoutes);
 
-app.post('/product',(req,res,next)=>{
-    console.log(req.body);
-    res.redirect('/');
+app.use((req,res,next)=>{
+    res.status(404).send('<h1>Page not found</h1>');
 });
-
-app.use('/',(req,res ,next)=>{
-    res.send('<h1>Hello From express!</h1>');
-  });
 
 app.listen(3000);
